@@ -20,26 +20,9 @@ def send(ser,cmd):
             byts = int(cmd.split(":")[-1].strip("]"))
         print(cmd)
         ser.write(str(cmd+'\n').encode('ascii')) # send our command
-        if byts > 512:
-            print("greater")
-            time.sleep(.5)
-            recvd = ser.read(ser.inWaiting())
-            time.sleep(.5)
-            recvd += ser.read(ser.inWaiting())
-            time.sleep(.5)
-            recvd = ser.read(ser.inWaiting())
+        if byts >= 128:
             time.sleep(.125)
-            recvd = ser.read(ser.inWaiting())
-            time.sleep(.125)
-            recvd = ser.read(ser.inWaiting())
-            time.sleep(.125)
-            recvd = ser.read(ser.inWaiting())
-            time.sleep(.125)
-            recvd = ser.read(ser.inWaiting())
-            time.sleep(.125)
-            recvd = ser.read(ser.inWaiting())
-        elif byts >= 128:
-            while update != bytes("", "ascii"):
+            while ser.in_waiting():
                 update = ser.read(ser.inWaiting())
                 time.sleep(.125)
                 recvd.extend(update)
